@@ -1,0 +1,132 @@
+import tkinter
+import math
+root = tkinter.Tk()
+root.title('无情铁手')
+root['bg'] = '#cadddb'
+root.minsize(270, 300)
+root.resizable(False, False)
+ispresign = False
+numlist = []
+isequalsign = 0
+specialsign = 0
+def pressnum(num):
+    global ispresign
+    global isequalsign
+    if ispresign == True:
+        value1.set('0')
+        ispresign = False
+    if isequalsign == 1:
+        value1.set('0')
+        isequalsign = 0
+    oldnum = value1.get()
+    if num == '.' and num in oldnum:
+        res = oldnum
+    elif num== '.' and oldnum == '0':
+        res = oldnum + '.'
+    elif oldnum == '0':
+        res = num
+    else:
+        res = oldnum + num
+    value1.set(res)
+def presign(sign):
+    global numlist
+    global ispresign
+    if ispresign == True:
+        numlist[-1] = sign
+    else:
+        oldnum = value1.get()
+        numlist.append(oldnum)
+        numlist.append(sign)
+    ispresign = True
+def special(sign):
+    global specialsign
+    global numlist
+    strs = value1.get()
+    if sign == '√':
+        if eval(strs) > 0:
+            res = math.sqrt(eval(strs))
+        else:
+            res = strs
+    elif sign == 'm2':
+        res = eval(strs + '*'+ strs)
+    elif sign == 'C':
+        numlist.clear()
+        res = 0
+    elif sign == 'CE':
+        res = 0
+    elif sign == '←':
+        if strs != '0':
+            if len(strs) != 1 :
+                res = strs[0:-1]
+            else :
+                res = '0'
+        else:
+            res = '0'
+    specialsign = 1
+    value1.set(res)
+def presseq(signeq):
+    global numlist
+    global isequalsign
+    oldnum = value1.get()
+    numlist.append(oldnum)
+    result = ''.join(numlist)
+    value1.set(eval(result))
+    numlist.clear()
+    isequalsign = 1
+def demo1():
+    pass
+allmenu = tkinter.Menu()
+file = tkinter.Menu(tearoff=0)
+file.add_command(label='介绍', command=demo1)
+file.add_command(label='退出', command=root.quit)
+value1 = tkinter.StringVar()
+value1.set('0')
+show = tkinter.Label(textvariable=value1, anchor='e', bg='white', font=('宋体', 15), bd=10)
+show.place(x=10, y=10, width=245, height=60)
+btn0 = tkinter.Button(text='0', command=lambda: pressnum('0'))
+btn0.place(x=10, y=250, width=95, height=40)
+btndian = tkinter.Button(text='.',command=lambda: pressnum('.'))
+btndian.place(x=110, y=250, width=45, height=40)
+btn1 = tkinter.Button(text='1', command=lambda: pressnum('1'))
+btn1.place(x=10, y=205, width=45, height=40)
+btn2 = tkinter.Button(text='2', command=lambda: pressnum('2'))
+btn2.place(x=60, y=205, width=45, height=40)
+btn3 = tkinter.Button(text='3', command=lambda: pressnum('3'))
+btn3.place(x=110, y=205, width=45, height=40)
+btn4 = tkinter.Button(text='4', command=lambda: pressnum('4'))
+btn4.place(x=10, y=160, width=45, height=40)
+btn5 = tkinter.Button(text='5', command=lambda: pressnum('5'))
+btn5.place(x=60, y=160, width=45, height=40)
+btn6 = tkinter.Button(text='6', command=lambda: pressnum('6'))
+btn6.place(x=110, y=160, width=45, height=40)
+btn7 = tkinter.Button(text='7', command=lambda: pressnum('7'))
+btn7.place(x=10, y=115, width=45, height=40)
+btn8 = tkinter.Button(text='8', command=lambda: pressnum('8'))
+btn8.place(x=60, y=115, width=45, height=40)
+btn9 = tkinter.Button(text='9', command=lambda: pressnum('9'))
+btn9.place(x=110, y=115, width=45, height=40)
+btnjia = tkinter.Button(text='+', command=lambda: presign('+'))
+btnjia.place(x=160, y=250, width=45, height=40)
+btnjian = tkinter.Button(text='-', command=lambda: presign('-'))
+btnjian.place(x=160, y=205, width=45, height=40)
+btncheng = tkinter.Button(text='X', command=lambda: presign('*'))
+btncheng.place(x=160, y=160, width=45, height=40)
+btnchu = tkinter.Button(text='÷', command=lambda: presign('/'))
+btnchu.place(x=160, y=115, width=45, height=40)
+btngenhao = tkinter.Button(text='√',command = lambda :special('√'))
+btngenhao.place(x=10, y=75, width=95, height=35)
+btnsqrt = tkinter.Button(text='㎡',command = lambda :special('m2'))
+btnsqrt.place(x=110, y=75, width=95, height=35)
+btnsqrt = tkinter.Button(text='C',command = lambda :special('C'))
+btnsqrt.place(x=210, y=75, width=45, height=35)
+btndel = tkinter.Button(text='←',command = lambda :special('←'))
+btndel.place(x=210, y=160, width=45, height=40)
+btnclear = tkinter.Button(text='CE',command = lambda :special('CE'))
+btnclear.place(x=210, y=115, width=45, height=40)
+btnden = tkinter.Button(text='=', command=lambda: presseq('='))
+btnden.place(x=210, y=205, width=45, height=85)
+allmenu.add_cascade(menu=file, label='文件')
+root.config(menu=allmenu)
+root.mainloop()
+import tkinter
+import math
